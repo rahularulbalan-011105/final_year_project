@@ -1,0 +1,32 @@
+# LfD skill extraction from human demonstration video -- Phase 1 (perception).
+#
+# Tested on Python 3.11 (Windows). See README.md for why 3.11 is recommended:
+# mediapipe >= 0.10.30 ships without the legacy `mp.solutions` API, and the
+# pose extractor then falls back to the `mediapipe.tasks` backend, which
+# downloads .task model bundles on first use.
+
+# --- core perception ---
+mediapipe>=0.10.9,<0.11        # BlazePose (33 landmarks) + Hands (21 landmarks)
+opencv-python>=4.8             # decode, resize, draw, encode
+ultralytics>=8.1               # YOLOv8n object detection (COCO-80)
+
+# --- numerics ---
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10                    # Savitzky-Golay smoothing (optional fast path)
+scikit-learn>=1.3              # not required by the baseline; here for the
+                               # learned-segmenter work that replaces it
+
+# --- ui + plots ---
+streamlit>=1.30
+matplotlib>=3.7
+
+# Notes
+# -----
+# * No change-point library is required: PELT with an L2 cost is implemented in
+#   segmentation/changepoint.py using numpy only.
+# * torch is pulled in transitively by ultralytics. A CPU build is sufficient;
+#   a GPU build only speeds up detection.
+# * ffmpeg on PATH is optional but recommended -- the annotated video is remuxed
+#   to baseline H.264 / yuv420p so browsers can play it. Without ffmpeg the file
+#   is still written, but some browsers will not play OpenCV's mp4 output.

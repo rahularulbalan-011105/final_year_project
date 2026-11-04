@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Analysis products: regenerate by rerunning the pipeline.
+outputs/*
+!outputs/.gitkeep
+
+# MediaPipe .task bundles fetched at runtime by the tasks backend.
+models/*.task
+!models/.gitkeep
+
+# YOLO weights, if downloaded into the repo.
+*.pt
